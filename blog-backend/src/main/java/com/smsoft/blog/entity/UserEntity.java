@@ -1,5 +1,6 @@
 package com.smsoft.blog.entity;
 
+import com.smsoft.blog.dto.SignUpDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,16 @@ public class UserEntity {
     @Id
     private String userEmail;
     private String userPassword;
-    private String userNickName;
+    private String userNickname;
     private String userPhoneNumber;
     private String userAddress;
     private String userProfile;
+
+    public UserEntity(SignUpDto signUpDto){
+            this.userEmail = signUpDto.getUserEmail();
+            this.userPassword = signUpDto.getUserPassword();
+            this.userNickname = signUpDto.getUserNickname();
+            this.userPhoneNumber = signUpDto.getUserPhoneNumber();
+            this.userAddress = signUpDto.getUserAddress() + " " + signUpDto.getUserAddressDetail();
+    }
 }
