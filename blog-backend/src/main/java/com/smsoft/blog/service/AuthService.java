@@ -6,14 +6,20 @@ import com.smsoft.blog.dto.SignInResponseDto;
 import com.smsoft.blog.dto.SignUpDto;
 import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.UserRepository;
+import com.smsoft.blog.security.TokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
     private UserRepository userRepository;
-    public AuthService(UserRepository userRepository) {
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    public AuthService(UserRepository userRepository, TokenProvider tokenProvider) {
         this.userRepository = userRepository;
+        this.tokenProvider = tokenProvider;
     }
 
     public ResponseDto<?> SignUp(SignUpDto signUpDto){
@@ -46,14 +52,25 @@ public class AuthService {
     public ResponseDto<SignInResponseDto> signIn(SignInDto signInDto){
         String userEmail = signInDto.getUserEmail();
         String userPassword = signInDto.getUserPassword();
-        boolean isExist = userRepository.existsByUserEmailAndUserPassword(userEmail, userPassword);
 
-        if (!isExist) return ResponseDto.setFailed("로그인 정보가 일치하지 않습니다!");
+        try{
+            boolean isExist = userRepository.existsByUserEmailAndUserPassword(userEmail, userPassword);
+            if (!isExist) return ResponseDto.setFailed("로그인 정보가 일치하지 않습니다!");
+        }catch (Exception e){
+            return ResponseDto.setFailed("데이터베이스 에러입니다!");
+        }
 
-        UserEntity userEntity = userRepository.findById(userEmail).get();
+        UserEntity userEntity = null;
+
+        try{
+            userEntity = userRepository.findById(userEmail).get();
+        }catch (Exception e){
+            return ResponseDto.setFailed("데이터베이스 에러입니다!");
+        }
+
         userEntity.setUserPassword("");
 
-        String token = "";
+        String token = tokenProvider.create(userEmail);
         int exprTime = 1117000;
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
