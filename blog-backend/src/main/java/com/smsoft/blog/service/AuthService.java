@@ -1,6 +1,8 @@
 package com.smsoft.blog.service;
 
 import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.SignInDto;
+import com.smsoft.blog.dto.SignInResponseDto;
 import com.smsoft.blog.dto.SignUpDto;
 import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.UserRepository;
@@ -39,5 +41,23 @@ public class AuthService {
         }
 
         return ResponseDto.setSuccess("회원가입 성공", null);
+    }
+
+    public ResponseDto<SignInResponseDto> signIn(SignInDto signInDto){
+        String userEmail = signInDto.getUserEmail();
+        String userPassword = signInDto.getUserPassword();
+        boolean isExist = userRepository.existsByUserEmailAndUserPassword(userEmail, userPassword);
+
+        if (!isExist) return ResponseDto.setFailed("로그인 정보가 일치하지 않습니다!");
+
+        UserEntity userEntity = userRepository.findById(userEmail).get();
+        userEntity.setUserPassword("");
+
+        String token = "";
+        int exprTime = 1117000;
+
+        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
+
+        return ResponseDto.setSuccess("로그인 성공!", signInResponseDto);
     }
 }

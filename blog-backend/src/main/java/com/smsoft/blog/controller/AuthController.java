@@ -1,6 +1,8 @@
 package com.smsoft.blog.controller;
 
 import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.SignInDto;
+import com.smsoft.blog.dto.SignInResponseDto;
 import com.smsoft.blog.dto.SignUpDto;
 import com.smsoft.blog.service.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,12 @@ public class AuthController {
     public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody){
         ResponseDto<?> result = authService.SignUp(requestBody);
         System.out.println(result);
+        return result;
+    }
+
+    @PostMapping("/signIn")
+    public ResponseDto<SignInResponseDto> signIn(@RequestBody SignInDto requestBody){
+        ResponseDto<SignInResponseDto> result = authService.signIn(requestBody);
         return result;
     }
 }
