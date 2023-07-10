@@ -1,9 +1,10 @@
 import './App.css';
-import Athentication from './views/Athentication';
+import Athentication from './views/Authentication';
+import MainLayout from './views/layouts/MainLayout';
 
 export default function App() {
 
   return (
-    <Athentication />
+    <MainLayout />
   );
 }
