@@ -6,8 +6,19 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import PeopleIcon from '@mui/icons-material/People';
+import { useUserStore } from '../../stores';
+import { useCookies } from 'react-cookie';
 
 export default function Navigation() {
+    const [cookies, setCookies] = useCookies();
+    const { user, removeUser } = useUserStore();
+
+    const logOutHandler = () => {
+        setCookies('token', '', { expires: new Date() });
+        removeUser();
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed">
@@ -24,7 +35,8 @@ export default function Navigation() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {user ? (<IconButton><PeopleIcon onClick={logOutHandler} color="inherit" fontSize="large" /></IconButton>) : (<Button color="inherit">로그인</Button>)}
+
                 </Toolbar>
             </AppBar>
         </Box>

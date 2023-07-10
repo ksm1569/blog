@@ -10,6 +10,7 @@ export default function MainLayout() {
     const [blogResponse, setBlogResponse] = useState<string>('');
     const [cookies] = useCookies();
     const { user } = useUserStore();
+
     const getBlog = async (token: string) => {
         const requestOption = {
             headers: {
@@ -28,13 +29,15 @@ export default function MainLayout() {
 
         if (token) {
             getBlog(token);
+        } else {
+            setBlogResponse('');
         }
-    }, [user])
+    }, [cookies.token]);
 
     return (
         <>
             <Navigation />
-            {blogResponse ? (<BlogMain />) : (<Authentication />)}
+            {user ? (<BlogMain />) : (<Authentication />)}
         </>
     )
 }
