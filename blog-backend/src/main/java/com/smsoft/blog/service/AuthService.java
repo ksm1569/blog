@@ -7,16 +7,13 @@ import com.smsoft.blog.dto.SignUpDto;
 import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.UserRepository;
 import com.smsoft.blog.security.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
-    private UserRepository userRepository;
-    private TokenProvider tokenProvider;
-
-    @Autowired
+    private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
     public AuthService(UserRepository userRepository, TokenProvider tokenProvider) {
         this.userRepository = userRepository;
         this.tokenProvider = tokenProvider;
