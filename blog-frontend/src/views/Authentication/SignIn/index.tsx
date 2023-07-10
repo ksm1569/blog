@@ -55,7 +55,7 @@ export default function SignIn(props: Props) {
             <Box pb={2}>
                 <Typography variant='h5'>로그인</Typography>
             </Box>
-            <Box height={'12vh'}>
+            <Box mb={2}>
                 <TextField fullWidth label="이메일" type="email" variant="standard" onChange={(e) => { setUserEmail(e.target.value) }} />
                 <TextField fullWidth label="비밀번호" type="password" variant="standard" onChange={(e) => { setUserPassword(e.target.value) }} />
             </Box>

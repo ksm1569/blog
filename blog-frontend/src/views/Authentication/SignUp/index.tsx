@@ -49,7 +49,7 @@ export default function SignUp(props: Props) {
             <Box pb={2}>
                 <Typography variant='h5'>회원가입</Typography>
             </Box>
-            <Box height={'30vh'}>
+            <Box mb={2}>
                 <TextField fullWidth label="이메일" type="email" variant="standard" onChange={(e) => { setUserEmail(e.target.value) }} />
                 <TextField fullWidth label="패스워드" type="password" variant="standard" onChange={(e) => { setPassword(e.target.value) }} />
                 <TextField fullWidth label="패스워드 확인" type="password" variant="standard" onChange={(e) => { setPasswordCheck(e.target.value) }} />
