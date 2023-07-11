@@ -66,4 +66,18 @@ public class BoardService {
 
         return ResponseDto.setSuccess("getPopularSearchList 성공!", popularSearchEntityList);
     }
+
+    //상단 nav바 게시물제목 검색
+    public ResponseDto<List<BoardEntity>> getSearchList(String boardTitle){
+        List<BoardEntity> boardEntityList = new ArrayList<BoardEntity>();
+
+        try {
+            boardEntityList = boardRepository.findByBoardTitleContains(boardTitle);
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("getSearchList 실패!");
+        }
+
+        return ResponseDto.setSuccess("getSearchList 성공!", boardEntityList);
+    }
 }

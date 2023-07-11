@@ -11,4 +11,6 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     public List<BoardEntity> findTop3ByBoardWriteDateAfterOrderByBoardLoveCountDesc(Date boardWriteDate);
     public List<BoardEntity> findByOrderByBoardWriteDateDesc();
+
+    public List<BoardEntity> findByBoardTitleContains(String boardTitle);
 }
