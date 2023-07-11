@@ -47,7 +47,7 @@ export default function SignUp(props: Props) {
     return (
         <Card sx={{ minWidth: 275, maxWidth: "70vw", padding: 5 }}>
             <Box pb={2}>
-                <Typography variant='h5'>회원가입</Typography>
+                <Typography variant='h5' fontWeight='900'>회원가입</Typography>
             </Box>
             <Box mb={2}>
                 <TextField fullWidth label="이메일" type="email" variant="standard" onChange={(e) => { setUserEmail(e.target.value) }} />

@@ -8,7 +8,13 @@ export default function Authentication() {
 
     return (
         <>
-            <Box display='flex' height="100vh">
+            <Box display='flex'
+                sx={{
+                    minHeight: '40vh',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} >
                 <Box flex={1} display='flex' justifyContent='center' alignItems='center'>
 
                 </Box>
