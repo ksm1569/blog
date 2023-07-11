@@ -17,6 +17,6 @@ import javax.persistence.Table;
 @Table(name = "PopularSearch")
 public class PopularSearchEntity {
     @Id
-    private String PopularTerm;
-    private int PopularSearchCount;
+    private String popularTerm;
+    private int popularSearchCount;
 }
