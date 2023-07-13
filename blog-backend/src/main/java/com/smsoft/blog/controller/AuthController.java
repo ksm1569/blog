@@ -1,9 +1,9 @@
 package com.smsoft.blog.controller;
 
-import com.smsoft.blog.dto.ResponseDto;
-import com.smsoft.blog.dto.SignInDto;
-import com.smsoft.blog.dto.SignInResponseDto;
-import com.smsoft.blog.dto.SignUpDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.request.auth.SignInDto;
+import com.smsoft.blog.dto.respose.auth.SignInResponseDto;
+import com.smsoft.blog.dto.request.auth.SignUpDto;
 import com.smsoft.blog.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 

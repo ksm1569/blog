@@ -13,7 +13,7 @@ public class TokenProvider {
     private static final String SECURITY_KEY = "JWTsecurityKey!@#";
 
     public String create(String userEmail){
-        Date exprTime = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
+        Date exprTime = Date.from(Instant.now().plus(3, ChronoUnit.HOURS));
 
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)

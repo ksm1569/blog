@@ -1,8 +1,8 @@
 package com.smsoft.blog.controller;
 
-import com.smsoft.blog.dto.PatchUserDto;
-import com.smsoft.blog.dto.PatchUserResponseDto;
-import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.request.user.PatchUserDto;
+import com.smsoft.blog.dto.respose.user.PatchUserResponseDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PatchMapping;

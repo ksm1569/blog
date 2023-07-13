@@ -1,13 +1,12 @@
 package com.smsoft.blog.service;
 
-import com.smsoft.blog.dto.ResponseDto;
-import com.smsoft.blog.dto.SignInDto;
-import com.smsoft.blog.dto.SignInResponseDto;
-import com.smsoft.blog.dto.SignUpDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.request.auth.SignInDto;
+import com.smsoft.blog.dto.respose.auth.SignInResponseDto;
+import com.smsoft.blog.dto.request.auth.SignUpDto;
 import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.UserRepository;
 import com.smsoft.blog.security.TokenProvider;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,7 @@ public class AuthService {
             return ResponseDto.setFailed("데이터베이스 에러입니다!");
         }
 
-        return ResponseDto.setSuccess("회원가입 성공", null);
+        return ResponseDto.setSuccess("회원가입 완료", null);
     }
 
     //로그인
@@ -78,7 +77,7 @@ public class AuthService {
         userEntity.setUserPassword("");
 
         String token = tokenProvider.create(userEmail);
-        int exprTime = 1117000;
+        int exprTime = 7200000;
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
 

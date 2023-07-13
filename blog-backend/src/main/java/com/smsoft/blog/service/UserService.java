@@ -1,8 +1,8 @@
 package com.smsoft.blog.service;
 
-import com.smsoft.blog.dto.PatchUserDto;
-import com.smsoft.blog.dto.PatchUserResponseDto;
-import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.request.user.PatchUserDto;
+import com.smsoft.blog.dto.respose.user.PatchUserResponseDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.UserRepository;
 import org.springframework.stereotype.Service;

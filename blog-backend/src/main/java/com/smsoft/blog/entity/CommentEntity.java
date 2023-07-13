@@ -24,11 +24,4 @@ public class CommentEntity {
     private String commentWriteDate;
     private String commentContent;
 
-//    comment_id Int Auto_Increment primary key,
-//    board_number INT NOT NULL,
-//    user_email VARCHAR(40) NOT NULL,
-//    comment_profile text,
-//    comment_nickname VARCHAR(30) NOT NULL,
-//    comment_write_date date not null,
-//    comment_content text not null
 }

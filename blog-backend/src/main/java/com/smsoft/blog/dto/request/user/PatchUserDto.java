@@ -1,4 +1,4 @@
-package com.smsoft.blog.dto;
+package com.smsoft.blog.dto.request.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

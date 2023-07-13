@@ -1,21 +1,19 @@
 package com.smsoft.blog.controller;
 
-import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.request.board.PostBoardDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
 import com.smsoft.blog.service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/blog")
+@RequestMapping("/api/board")
 public class BoardController {
 
     private final BoardService boardService;
@@ -23,6 +21,13 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
     }
+    @PostMapping("")
+    public ResponseDto<PostBoardResponseDto> postBoard(@AuthenticationPrincipal String email, @RequestBody PostBoardDto postBoardDto){
+        ResponseDto<PostBoardResponseDto> response = boardService.postBoard(email, postBoardDto);
+
+        return response;
+    }
+
     @GetMapping("/top3")
     public ResponseDto<List<BoardEntity>> getTop3(){
         return boardService.getTop3();

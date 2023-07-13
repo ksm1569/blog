@@ -1,11 +1,14 @@
 package com.smsoft.blog.entity;
 
+import com.smsoft.blog.dto.request.board.PostBoardDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Builder
 @AllArgsConstructor
@@ -30,17 +33,19 @@ public class BoardEntity {
     private int boardLoveCount;
     private int boardCommentCount;
 
-//    board_number INT PRIMARY KEY auto_increment,
-//    board_title varchar(200) not null,
-//    board_content text not null,
-//    board_image text,
-//    board_video text,
-//    board_file text,
-//    board_writer_email varchar(40) not null,
-//    board_writer_profile text,
-//    board_writer_nickname VARCHAR(30) NOT NULL,
-//    board_write_date date not null,
-//    board_click_count int default 0,
-//    board_like_count int default 0,
-//    board_comment_count int default 0
+    public BoardEntity(UserEntity userEntity, PostBoardDto postBoardDto) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        this.boardTitle = postBoardDto.getBoardTitle();
+        this.boardContent = postBoardDto.getBoardContent();
+        this.boardImage = postBoardDto.getBoardImgUrl();
+        this.boardWriteDate = simpleDateFormat.format(now);
+        this.boardClickCount = 0;
+        this.boardWriterEmail = userEntity.getUserEmail();
+        this.boardWriterNickname = userEntity.getUserNickname();
+        this.boardWriterProfile = userEntity.getUserProfile();
+        this.boardCommentCount = 0;
+        this.boardLoveCount = 0;
+    }
 }

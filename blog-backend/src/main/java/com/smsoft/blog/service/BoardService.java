@@ -1,11 +1,14 @@
 package com.smsoft.blog.service;
 
-import com.smsoft.blog.dto.ResponseDto;
+import com.smsoft.blog.dto.request.board.PostBoardDto;
+import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
+import com.smsoft.blog.entity.UserEntity;
 import com.smsoft.blog.repository.BoardRepository;
 import com.smsoft.blog.repository.PopularSearchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smsoft.blog.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -17,11 +20,38 @@ import java.util.List;
 @Service
 public class BoardService {
 
+    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final PopularSearchRepository popularSearchRepository;
-    public BoardService(BoardRepository boardRepository, PopularSearchRepository popularSearchRepository) {
+
+    public BoardService(UserRepository userRepository, BoardRepository boardRepository, PopularSearchRepository popularSearchRepository) {
+        this.userRepository = userRepository;
         this.boardRepository = boardRepository;
         this.popularSearchRepository = popularSearchRepository;
+    }
+
+    //게시글 작성
+    public ResponseDto<PostBoardResponseDto> postBoard(String email, PostBoardDto postBoardDto){
+        PostBoardResponseDto postBoardResponseDto = null;
+
+        try {
+            UserEntity userEntity = userRepository.findByUserEmail(email);
+
+            if (userEntity == null){
+                return ResponseDto.setFailed("유저를 찾을 수 없음!");
+            }
+
+            BoardEntity boardEntity = new BoardEntity(userEntity, postBoardDto);
+            boardRepository.save(boardEntity);
+
+            postBoardResponseDto = new PostBoardResponseDto(boardEntity);
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("postBoard 실패!");
+        }
+
+        return ResponseDto.setSuccess("글 작성이 완료되었습니다", postBoardResponseDto);
     }
 
     //주간 게시물 탑3

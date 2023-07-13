@@ -1,11 +1,10 @@
 package com.smsoft.blog.entity;
 
-import com.smsoft.blog.dto.SignUpDto;
+import com.smsoft.blog.dto.request.auth.SignUpDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
