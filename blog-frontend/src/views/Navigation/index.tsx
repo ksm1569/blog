@@ -70,7 +70,7 @@ export default function Navigation() {
                             />
                         </FormControl>
                         {
-                            user && (<Button variant='outlined' sx={{ borderColor: '#000000', color: '#000000' }} onClick={() => navigator('/myPage')}>마이페이지</Button>)
+                            cookies.token && (<Button variant='outlined' sx={{ borderColor: '#000000', color: '#000000' }} onClick={() => navigator('/myPage')}>마이페이지</Button>)
                         }
 
                     </Box>

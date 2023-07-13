@@ -26,18 +26,18 @@ export default function MainLayout() {
 
     useEffect(() => {
         const token = cookies.token;
-
+        console.log(token);
         if (token) {
             getBlog(token);
         } else {
             setBlogResponse('');
         }
-    }, [cookies.token]);
+    }, []);
 
     return (
         <>
             <Navigation />
-            {user ? (<BlogMain />) : (<Authentication />)}
+            {cookies.token ? (<BlogMain />) : (<Authentication />)}
         </>
     )
 }

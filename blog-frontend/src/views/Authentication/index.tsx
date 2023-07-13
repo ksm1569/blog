@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import SignUp from './SignUp'
 import SignIn from './SignIn'
 import Box from '@mui/material/Box'
+import Navigation from '.././Navigation'
 
 export default function Authentication() {
     const [authView, setAuthView] = useState<boolean>(true);
