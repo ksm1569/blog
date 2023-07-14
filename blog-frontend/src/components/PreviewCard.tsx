@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar, Box, Card, CardActionArea, Typography } from '@mui/material'
 
 export default function PreviewCard() {
 
     const navigator = useNavigate();
-
+    const { boardNumber } = useParams();
     return (
         <Card>
-            <CardActionArea sx={{ height: '170px', backgroundImage: '', backgroundSize: 'cover', backgroundColor: '#666666' }} onClick={() => navigator(`/board/detail/''`)}>
+            <CardActionArea sx={{ height: '170px', backgroundImage: '', backgroundSize: 'cover', backgroundColor: '#666666' }} onClick={() => navigator(`/board/detail/${boardNumber}`)}>
                 <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column-reverse' }}>
                     <Box sx={{ p: '24px' }}>
                         <Box sx={{ display: 'flex' }}>

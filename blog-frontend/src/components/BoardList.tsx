@@ -1,23 +1,51 @@
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
 import { authorizationHeader } from "../apis";
 import { useCookies } from "react-cookie";
 import ResponseDto from "../interfaces/response/ResponseDto";
 import GetListResponseDto from "../interfaces/response/GetListResponseDto";
-import styled from "styled-components";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableFooter,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Paper
-} from "@material-ui/core";
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { styled } from '@mui/material/styles';
+
+interface Column {
+    id: 'boardNumber' | 'boardTitle' | 'boardWriterNickname' | 'boardWriteDate'
+    label: string;
+    minWidth?: number;
+    align?: 'center';
+    format?: (value: number) => string;
+}
+
+const columns: readonly Column[] = [
+    { id: 'boardNumber', label: 'No', minWidth: 50 },
+    { id: 'boardTitle', label: '제목', minWidth: 170 },
+    { id: 'boardWriterNickname', label: '글쓴이', minWidth: 100 },
+    { id: 'boardWriteDate', label: '날짜', minWidth: 150 },
+    // {
+    //   id: 'density',
+    //   label: 'Density',
+    //   minWidth: 170,
+    //   align: 'right',
+    //   format: (value: number) => value.toFixed(2),
+    // },
+];
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        fontSize: 20,
+        fontWeight: 700
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 16,
+    },
+}));
 
 
 
@@ -27,18 +55,15 @@ export default function BoardList() {
     const [boardList, setBoardList] = useState<GetListResponseDto[]>([]);
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const StyledTableCell = styled(TableCell)`
-        font-size: 1.2rem; 
-        margin-bottom: 50px;
-    `;
+    const [rowsPerPage, setRowsPerPage] = useState(15);
 
-    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+
+    const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
@@ -66,45 +91,59 @@ export default function BoardList() {
 
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table size="medium">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">No</StyledTableCell>
-                            <StyledTableCell align="center">제목</StyledTableCell>
-                            <StyledTableCell align="center">글쓴이</StyledTableCell>
-                            <StyledTableCell align="center">날짜</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {boardList
-                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                            .map(({ boardNumber, boardTitle, boardWriterNickname, boardWriteDate }, i) => (
-                                <TableRow key={boardNumber}>
-                                    <StyledTableCell align="center" component="th" scope="row">
-                                        {page * rowsPerPage + i + 1}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{boardTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{boardWriterNickname}</StyledTableCell>
-                                    <StyledTableCell align="center">{boardWriteDate}</StyledTableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                count={boardList.length}
-                                page={page}
-                                rowsPerPage={rowsPerPage}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
 
+
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ minHeight: 900 }}>
+                    <Table stickyHeader aria-label="sticky table" >
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <StyledTableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+
+                                    >
+                                        {column.label}
+                                    </StyledTableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {boardList
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.boardNumber}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <StyledTableCell
+                                                        onClick={() => navigator(`/board/detail/${row.boardNumber}`)}
+                                                        key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number'
+                                                            ? column.format(value)
+                                                            : value}
+                                                    </StyledTableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[15, 40, 100]}
+                    component="div"
+                    count={boardList.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
 
         </>
     )

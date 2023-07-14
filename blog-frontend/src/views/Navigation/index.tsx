@@ -1,20 +1,20 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState, KeyboardEvent, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import PeopleIcon from '@mui/icons-material/People';
 import { useUserStore } from '../../stores';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { FormControl, OutlinedInput, InputAdornment } from '@mui/material';
+import { FormControl, OutlinedInput, InputAdornment, Avatar, Card, CardContent } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './style.css';
+import AvatarList from '../../components/AvatarList';
 
 export default function Navigation() {
+
     const navigator = useNavigate();
     const [cookies, setCookies] = useCookies();
     const { user, removeUser } = useUserStore();
@@ -22,6 +22,7 @@ export default function Navigation() {
 
     const logOutHandler = () => {
         setCookies('token', '', { expires: new Date() });
+        setIsCardOpen(false);
         removeUser();
     }
 
@@ -38,6 +39,17 @@ export default function Navigation() {
         if (event.key !== 'Enter') return;
         onSearchHandler();
     }
+    const [isCardOpen, setIsCardOpen] = useState<boolean>(false);
+
+
+    const handleAvatarClick = (): void => {
+        setIsCardOpen(!isCardOpen);
+    };
+
+    useEffect(() => {
+        setIsCardOpen(false);
+    }, []);
+
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -69,10 +81,18 @@ export default function Navigation() {
                                 onKeyPress={(event) => onSearchKeyPressHandler(event)}
                             />
                         </FormControl>
-                        {
+                        {/* {
                             cookies.token && (<Button variant='outlined' sx={{ borderColor: '#000000', color: '#000000' }} onClick={() => navigator('/myPage')}>마이페이지</Button>)
-                        }
+                        } */}
 
+                        <Box>
+                            {
+                                cookies.token && (<Avatar alt="Remy Sharp" src={''} onClick={handleAvatarClick} />)
+                            }
+                            {
+                                isCardOpen && (<> <AvatarList onLogout={logOutHandler} /> </>)
+                            }
+                        </Box>
                     </Box>
                 </Toolbar>
             </AppBar>
