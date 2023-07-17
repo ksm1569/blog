@@ -1,7 +1,11 @@
 ### ✨ 초안 (내용정리중)
 REACT, REACT MUI, ZUSTAND, TYPESCRIPT
+
 JAVA 17, SPRING BOOT, SPRING SECURITY, JPA, JWT
+
 MYSQL
+
+<br>
 
 <img width="600" src="https://github.com/ksm1569/blog/assets/34292113/86cae3c4-b9f9-49aa-84b2-56547af50863">
 
