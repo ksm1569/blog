@@ -43,7 +43,6 @@ export default function BlogMain() {
                 <Box>
                     <Typography style={{ fontFamily: "CookieRunRegular" }} sx={{ fontSize: '30px', fontWeight: 400, p: '24px', textAlign: 'center' }}>주간 HIT 게시물</Typography>
                     <Grid container spacing={2}>
-
                         {
                             top4List.map((item) => (
                                 <Grid item sm={12} md={3}>
@@ -51,18 +50,6 @@ export default function BlogMain() {
                                 </Grid>
                             ))
                         }
-                        {/* <Grid item sm={12} md={3}>
-                            <PreviewCard />
-                        </Grid>
-                        <Grid item sm={12} md={3}>
-                            <PreviewCard />
-                        </Grid>
-                        <Grid item sm={12} md={3}>
-                            <PreviewCard />
-                        </Grid>
-                        <Grid item sm={12} md={3}>
-                            <PreviewCard />
-                        </Grid> */}
                     </Grid>
                 </Box>
             </Box>
