@@ -11,6 +11,7 @@ import com.smsoft.blog.repository.PopularSearchRepository;
 import com.smsoft.blog.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -54,19 +55,21 @@ public class BoardService {
         return ResponseDto.setSuccess("글 작성이 완료되었습니다", postBoardResponseDto);
     }
 
-    //주간 게시물 탑3
-    public ResponseDto<List<BoardEntity>> getTop3(){
+    //주간 게시물 탑4
+    public ResponseDto<List<BoardEntity>> getTop4(){
         List<BoardEntity> boardEntityList = new ArrayList<BoardEntity>();
         Date date = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String WeekAgo = simpleDateFormat.format(date);
 
         try {
-            boardEntityList = boardRepository.findTop3ByBoardWriteDateAfterOrderByBoardLoveCountDesc(date);
+            boardEntityList = boardRepository.findTop4ByBoardWriteDateGreaterThanOrderByBoardLoveCountDesc(WeekAgo);
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseDto.setFailed("getTop3 실패!");
+            return ResponseDto.setFailed("getTop4 실패!");
         }
 
-        return ResponseDto.setSuccess("getTop3 성공!", boardEntityList);
+        return ResponseDto.setSuccess("getTop4 성공!", boardEntityList);
     }
 
     //전체 게시물 리스트

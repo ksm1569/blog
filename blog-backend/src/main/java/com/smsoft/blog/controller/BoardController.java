@@ -28,9 +28,9 @@ public class BoardController {
         return response;
     }
 
-    @GetMapping("/top3")
-    public ResponseDto<List<BoardEntity>> getTop3(){
-        return boardService.getTop3();
+    @GetMapping("/top4")
+    public ResponseDto<List<BoardEntity>> getTop4(){
+        return boardService.getTop4();
     }
 
     @GetMapping("/list")
