@@ -72,7 +72,7 @@ export default function BoardList() {
             .then((response) => {
                 getListResponseHandler(response);
             })
-            .catch((error) => { console.log(error) })
+            .catch((error) => { console.log(error.message) })
     }
 
     const getListResponseHandler = (response: AxiosResponse<any, any>) => {
