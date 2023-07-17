@@ -1,36 +1,39 @@
-interface GetBoardResponseDtd {
-    board: {
-        boardContent: string;
-        boardImgUrl: string | null;
+interface GetBoardResponseDto {
+    boardEntity: {
         boardNumber: number;
         boardTitle: string;
-        boardWriteDatetime: string;
-        commentCount: number;
-        likeCount: number;
-        viewCount: number;
-        writerEmail: string;
-        writerNickname: string;
-        writerProfileUrl: string | null;
+        boardContent: string;
+        boardImage: string | null;
+        boardVideo: string | null;
+        boardFile: string | null;
+        boardWriterEmail: string;
+        boardWriterProfile: string | null;
+        boardWriterNickname: string;
+        boardWriteDate: string;
+        boardClickCount: number;
+        boardLoveCount: number;
+        boardCommentCount: number;
     };
-    commentList: [
+    commentEntityList: [
         {
-            boardNumber: number;
-            commentContent: string;
-            commentNumber: number;
-            writeDatetime: string;
-            writerEmail: string;
-            writerNickname: string;
-            writerProfileUrl: string | null;
-        }
-    ];
-    loveList: [
-        {
+            commentId: number;
             boardNumber: number;
             userEmail: string;
-            userNickname: string;
-            userProfileUrl: string | null;
+            commentProfile: string | null;
+            commentNickname: string;
+            commentWriteDate: string;
+            commentContent: string;
+        }
+    ];
+    loveEntityList: [
+        {
+            loveId: number;
+            boardNumber: number;
+            userEmail: string;
+            loveUserProfile: string | null;
+            loveUserNickname: string;
         }
     ];
 }
 
-export default GetBoardResponseDtd;
+export default GetBoardResponseDto;

@@ -91,8 +91,6 @@ export default function BoardList() {
 
     return (
         <>
-
-
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ minHeight: 900 }}>
                     <Table stickyHeader aria-label="sticky table" >

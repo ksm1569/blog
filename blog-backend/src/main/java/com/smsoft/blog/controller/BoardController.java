@@ -2,6 +2,7 @@ package com.smsoft.blog.controller;
 
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
@@ -36,6 +37,12 @@ public class BoardController {
     @GetMapping("/list")
     public ResponseDto<List<BoardEntity>> getList(){
         return boardService.getList();
+    }
+
+    @GetMapping("/detail/{boardNumber}")
+    public ResponseDto<GetBoardResponseDto> getBoard(@PathVariable("boardNumber") int boardNumber){
+        ResponseDto<GetBoardResponseDto> getBoardResponseDtoResponseDto = boardService.getBoard(boardNumber);
+        return getBoardResponseDtoResponseDto;
     }
 
     @GetMapping("/popularsearchList")

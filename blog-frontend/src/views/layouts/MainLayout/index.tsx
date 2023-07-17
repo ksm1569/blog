@@ -11,23 +11,10 @@ export default function MainLayout() {
     const [cookies] = useCookies();
     const { user } = useUserStore();
 
-    // const getBlog = async (token: string) => {
-    //     const requestOption = {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     }
-
-    //     await axios.get('http://localhost:4000/api/blog', requestOption).then((response) => {
-    //         setBlogResponse(response.data);
-    //     }).catch((error) => null);
-
-    // }
-
     useEffect(() => {
         const token = cookies.token;
         if (token) {
-            //getBlog(token);
+
         } else {
             setBlogResponse('');
         }

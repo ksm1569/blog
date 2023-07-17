@@ -2,13 +2,10 @@ package com.smsoft.blog.service;
 
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
+import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
-import com.smsoft.blog.entity.BoardEntity;
-import com.smsoft.blog.entity.PopularSearchEntity;
-import com.smsoft.blog.entity.UserEntity;
-import com.smsoft.blog.repository.BoardRepository;
-import com.smsoft.blog.repository.PopularSearchRepository;
-import com.smsoft.blog.repository.UserRepository;
+import com.smsoft.blog.entity.*;
+import com.smsoft.blog.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -25,10 +22,15 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final PopularSearchRepository popularSearchRepository;
 
-    public BoardService(UserRepository userRepository, BoardRepository boardRepository, PopularSearchRepository popularSearchRepository) {
+    private final LoveRepository loveRepository;
+    private final CommentRepository commentRepository;
+
+    public BoardService(UserRepository userRepository, BoardRepository boardRepository, PopularSearchRepository popularSearchRepository, LoveRepository loveRepository, CommentRepository commentRepository) {
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
         this.popularSearchRepository = popularSearchRepository;
+        this.loveRepository = loveRepository;
+        this.commentRepository = commentRepository;
     }
 
     //게시글 작성
@@ -112,5 +114,28 @@ public class BoardService {
         }
 
         return ResponseDto.setSuccess("getSearchList 성공!", boardEntityList);
+    }
+
+    public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber){
+        GetBoardResponseDto getBoardResponseDto = null;
+
+        try {
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+
+            if (boardEntity == null){
+                return ResponseDto.setFailed("존재하지 않는 게시물입니다!");
+            }
+
+            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumber(boardNumber);
+            List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
+
+            getBoardResponseDto = new GetBoardResponseDto(boardEntity, commentEntityList, loveEntityList);
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("getBoard 실패!");
+        }
+
+        return ResponseDto.setSuccess("getBoard 성공!", getBoardResponseDto);
     }
 }

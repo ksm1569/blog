@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @Data
 @Entity(name = "Comment")
-@Table(name = "Table")
+@Table(name = "Comment")
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

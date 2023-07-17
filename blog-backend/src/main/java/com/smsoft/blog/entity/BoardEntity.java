@@ -48,4 +48,8 @@ public class BoardEntity {
         this.boardCommentCount = 0;
         this.boardLoveCount = 0;
     }
+
+    public void increaseViewCount() {
+        this.boardClickCount++;
+    }
 }

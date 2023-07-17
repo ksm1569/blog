@@ -5,17 +5,25 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useCookies } from 'react-cookie';
 import axios, { AxiosResponse } from 'axios';
 import ResponseDto from '../../interfaces/response/ResponseDto';
-import GetBoardResponseDtd from '../../interfaces/response/GetBoardResponseDto';
+import GetBoardResponseDto from '../../interfaces/response/GetBoardResponseDto';
 import { authorizationHeader } from '../../apis';
+import boardEntity from '../../interfaces/boardentity.interface';
+import { useUserStore } from '../../stores';
+import commentEntityList from '../../interfaces/commentEntityList.interface';
+import loveEntityList from '../../interfaces/loveEntityList.interface';
 
 export default function BoardDetail() {
     const [cookies] = useCookies();
     const navigator = useNavigate();
-    const { boardNumber } = useParams();
     const accessToken = cookies.token;
     const [menuFlag, setMenuFlag] = useState<boolean>(false);
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const { boardNumber } = useParams();
+    const { user } = useUserStore();
+    const [board, setBoard] = useState<boardEntity | null>(null);
+    const [commentList, setCommentList] = useState<commentEntityList | null>(null);
+    const [loveList, setLoveList] = useState<loveEntityList | null>(null);
 
     const onMenuClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorElement(event.currentTarget);
@@ -43,7 +51,7 @@ export default function BoardDetail() {
     }
 
     const getBoard = () => {
-        axios.get(`http://localhost:4000/api/board/${boardNumber}}`, authorizationHeader(accessToken))
+        axios.get(`http://localhost:4000/api/board/detail/${boardNumber}`, authorizationHeader(accessToken))
             .then((response) => {
                 getBoardResponseHandler(response);
             })
@@ -52,28 +60,27 @@ export default function BoardDetail() {
     }
 
     const getBoardResponseHandler = (response: AxiosResponse<any, any>) => {
-        const { result, message, data } = response.data as ResponseDto<GetBoardResponseDtd>
+        const { result, message, data } = response.data as ResponseDto<GetBoardResponseDto>
         if (!result || !data) {
             alert(message);
             navigator('/');
             return;
         }
-        //setBoardResponse(data);
+        setBoardResponse(data);
     }
 
-    // const setBoardResponse = (data: GetBoardResponseDto | LikeResponseDto | PostCommentResponseDto) => {
-    //     const { board, commentList, likeList } = data;
-    //     setBoard(board);
-    //     // 댓글 리스트를 3개까지 보여주는
-    //     setBoardList(commentList);
-    //     setLikeList(likeList);
-    //     const owner = user !== null && board.writerEmail === user?.email;
-    //     setMenuFlag(owner);
-    // }
+    const setBoardResponse = (data: GetBoardResponseDto | GetBoardResponseDto | GetBoardResponseDto) => {
+        const { boardEntity, commentEntityList, loveEntityList } = data;
+        setBoard(boardEntity);
+        setCommentList(commentList);
+        setLoveList(loveList);
+
+        const owner = user !== null && boardEntity.boardWriterEmail === user?.userEmail;
+        setMenuFlag(owner);
+    }
 
 
     useEffect(() => {
-        //? boardNumber가 존재하는지 검증
         if (!boardNumber) {
             navigator('/');
             return;

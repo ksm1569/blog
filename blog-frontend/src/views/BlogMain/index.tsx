@@ -45,7 +45,7 @@ export default function BlogMain() {
                     <Grid container spacing={2}>
                         {
                             top4List.map((item) => (
-                                <Grid item sm={12} md={3}>
+                                <Grid item sm={12} md={3} key={item.boardNumber}>
                                     <PreviewCard item={item} />
                                 </Grid>
                             ))
@@ -63,12 +63,6 @@ export default function BlogMain() {
                         </Button>
                     </Box>
                     <BoardList />
-                    {/* 전체 */}
-                    {/* <Grid container spacing={3}>
-                        <Stack spacing={2}>
-                            <BoardList />
-                        </Stack>
-                    </Grid> */}
                 </Box>
             </Box>
 
