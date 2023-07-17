@@ -11,6 +11,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useCookies } from 'react-cookie';
 import ResponseDto from '../../interfaces/response/ResponseDto';
 import { convertToObject } from 'typescript';
+import Navigation from '../Navigation';
 
 export default function BlogMain() {
     const navigator = useNavigate();

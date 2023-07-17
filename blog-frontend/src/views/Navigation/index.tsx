@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent, useEffect } from 'react';
+import { useState, KeyboardEvent, useEffect, MouseEvent } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { useUserStore } from '../../stores';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import { FormControl, OutlinedInput, InputAdornment, Avatar, Card, CardContent } from '@mui/material';
+import { FormControl, OutlinedInput, InputAdornment, Avatar, Card, CardContent, Menu, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './style.css';
 import AvatarList from '../../components/AvatarList';
@@ -19,11 +19,18 @@ export default function Navigation() {
     const [cookies, setCookies] = useCookies();
     const { user, removeUser } = useUserStore();
     const [content, setContent] = useState<string>('');
+    const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
 
     const logOutHandler = () => {
         setCookies('token', '', { expires: new Date() });
-        setIsCardOpen(false);
         removeUser();
+        setAnchorElement(null);
+        setMenuOpen(false);
+    }
+
+    const onMenuCloseHandler = () => {
+        setAnchorElement(null);
+        setMenuOpen(false);
     }
 
     const onSearchHandler = () => {
@@ -39,16 +46,14 @@ export default function Navigation() {
         if (event.key !== 'Enter') return;
         onSearchHandler();
     }
-    const [isCardOpen, setIsCardOpen] = useState<boolean>(false);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
 
-    const handleAvatarClick = (): void => {
-        setIsCardOpen(!isCardOpen);
+    const handleAvatarClick = (event: MouseEvent<HTMLDivElement>) => {
+        setAnchorElement(event.currentTarget);
+        setMenuOpen(true);
     };
 
-    useEffect(() => {
-        setIsCardOpen(false);
-    }, []);
 
 
     return (
@@ -81,17 +86,17 @@ export default function Navigation() {
                                 onKeyPress={(event) => onSearchKeyPressHandler(event)}
                             />
                         </FormControl>
-                        {/* {
-                            cookies.token && (<Button variant='outlined' sx={{ borderColor: '#000000', color: '#000000' }} onClick={() => navigator('/myPage')}>마이페이지</Button>)
-                        } */}
 
                         <Box>
                             {
-                                cookies.token && (<Avatar alt="Remy Sharp" src={''} onClick={handleAvatarClick} />)
+                                cookies.token && (<Avatar alt="Remy Sharp" src={''} onClick={(event) => { handleAvatarClick(event) }} />)
                             }
-                            {
-                                isCardOpen && (<> <AvatarList onLogout={logOutHandler} /> </>)
-                            }
+                            <Paper sx={{ position: 'absolute', maxWidth: '100%' }}>
+                                <Menu anchorEl={anchorElement} open={menuOpen} onClose={onMenuCloseHandler} >
+                                    <AvatarList onLogout={logOutHandler} />
+                                </Menu>
+                            </Paper>
+
                         </Box>
                     </Box>
                 </Toolbar>

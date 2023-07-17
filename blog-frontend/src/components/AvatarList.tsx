@@ -14,6 +14,7 @@ import PortraitIcon from '@mui/icons-material/Portrait';
 import { useNavigate } from 'react-router';
 import { useUserStore } from '../stores';
 import { useCookies } from 'react-cookie';
+import { Paper, Menu, MenuItem } from '@mui/material'
 
 
 interface AvatarListProps {
@@ -26,35 +27,14 @@ export default function AvatarList({ onLogout }: AvatarListProps) {
     const { user, removeUser } = useUserStore();
 
     return (
-        <Box sx={{ position: 'absolute', top: '48px', right: '8px', zIndex: 1, bgcolor: 'background.secondary' }}>
-            <nav aria-label="main mailbox folders">
-                <List>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigator('/mypage')}>
-                            <ListItemIcon>
-                                <PortraitIcon />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Typography variant="h6" color="black" >
-                                    MyPage
-                                </Typography>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton onClick={onLogout} >
-                            <ListItemIcon>
-                                <LogoutIcon />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Typography variant="h6" color="black">
-                                    LogOut
-                                </Typography>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-            </nav>
-        </Box >
+        <>
+            <MenuItem sx={{ mt: '10px' }} onClick={() => navigator('/mypage')}>
+                <ListItemText>MyPage</ListItemText>
+            </MenuItem>
+
+            <MenuItem sx={{ mt: '10px', mb: '10px' }} onClick={onLogout}>
+                <ListItemText>LogOut</ListItemText>
+            </MenuItem>
+        </>
     );
 }

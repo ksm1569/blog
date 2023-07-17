@@ -116,6 +116,7 @@ public class BoardService {
         return ResponseDto.setSuccess("getSearchList 성공!", boardEntityList);
     }
 
+    //게시물번호의 게시물 가져오기
     public ResponseDto<GetBoardResponseDto> getBoard(int boardNumber){
         GetBoardResponseDto getBoardResponseDto = null;
 
@@ -126,7 +127,7 @@ public class BoardService {
                 return ResponseDto.setFailed("존재하지 않는 게시물입니다!");
             }
 
-            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumber(boardNumber);
+            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumberOrderByCommentWriteDateDesc(boardNumber);
             List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
 
             getBoardResponseDto = new GetBoardResponseDto(boardEntity, commentEntityList, loveEntityList);

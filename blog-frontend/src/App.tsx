@@ -14,6 +14,7 @@ export default function App() {
         <Route path='/' element={(<MainLayout />)} />
         <Route path='/board/write' element={(<BoardWrite />)} />
         <Route path='/board/detail/:boardNumber' element={(<BoardDetail />)} />
+        <Route path='/board/update/:boardNumber' element={''} />
         {/* <Route path='/myPage' element={(<MyPageView />)} /> */}
       </Routes>
     </>

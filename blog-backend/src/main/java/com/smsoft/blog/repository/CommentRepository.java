@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
-    public List<CommentEntity> findByBoardNumber(int boardNumber);
+    public List<CommentEntity> findByBoardNumberOrderByCommentWriteDateDesc(int boardNumber);
 }
