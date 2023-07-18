@@ -64,6 +64,11 @@ export default function BoardDetail() {
     const onLoveHandler = () => {
         if (!token) return;
 
+        axios.get(`http://localhost:4000/api/board/love/${boardNumber}`, authorizationHeader(token))
+            .then((response) => {
+                getLikeResponseHandler(response);
+            })
+            .catch((error) => { console.log(error) })
     }
 
     const onMenuClickHandler = (event: MouseEvent<HTMLButtonElement>) => {
@@ -97,6 +102,15 @@ export default function BoardDetail() {
         if (!result || !data) {
             alert(message);
             navigator('/');
+            return;
+        }
+        setBoardResponse(data);
+    }
+
+    const getLikeResponseHandler = (response: AxiosResponse<any, any>) => {
+        const { result, message, data } = response.data as ResponseDto<GetBoardResponseDto>
+        if (!result || !data) {
+            alert(message);
             return;
         }
         setBoardResponse(data);

@@ -3,6 +3,7 @@ package com.smsoft.blog.controller;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
+import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
@@ -41,8 +42,14 @@ public class BoardController {
 
     @GetMapping("/detail/{boardNumber}")
     public ResponseDto<GetBoardResponseDto> getBoard(@PathVariable("boardNumber") int boardNumber){
-        ResponseDto<GetBoardResponseDto> getBoardResponseDtoResponseDto = boardService.getBoard(boardNumber);
-        return getBoardResponseDtoResponseDto;
+        ResponseDto<GetBoardResponseDto> getBoardResponseDto = boardService.getBoard(boardNumber);
+        return getBoardResponseDto;
+    }
+
+    @GetMapping("/love/{boardNumber}")
+    public ResponseDto<GetLoveResponseDto> getLove(@AuthenticationPrincipal String userEmail, @PathVariable("boardNumber") int boardNumber){
+        ResponseDto<GetLoveResponseDto> getLoveResponseDto = boardService.getLove(userEmail, boardNumber);
+        return getLoveResponseDto;
     }
 
     @GetMapping("/popularsearchList")

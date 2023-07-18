@@ -3,6 +3,7 @@ package com.smsoft.blog.service;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
+import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
 import com.smsoft.blog.entity.*;
 import com.smsoft.blog.repository.*;
@@ -138,5 +139,38 @@ public class BoardService {
         }
 
         return ResponseDto.setSuccess("getBoard 성공!", getBoardResponseDto);
+    }
+
+    public ResponseDto<GetLoveResponseDto> getLove(String userEmail, int boardNumber){
+        GetLoveResponseDto getLoveResponseDto = null;
+
+        try {
+            UserEntity userEntity = userRepository.findByUserEmail(userEmail);
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            LoveEntity loveEntity = loveRepository.findByUserEmailAndBoardNumber(userEmail, boardNumber);
+
+            if (loveEntity == null) {
+                // 첫번째 좋아요일 경우 생성
+                loveEntity = new LoveEntity(userEntity, boardNumber);
+                loveRepository.save(loveEntity);
+                boardEntity.increaseLoveCount();
+            } else {
+                loveRepository.delete(loveEntity);
+                boardEntity.decreaseLoveCount();
+            }
+
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumberOrderByCommentWriteDateDesc(boardNumber);
+            List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
+
+            getLoveResponseDto = new GetLoveResponseDto(boardEntity, commentEntityList, loveEntityList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("getLove 실패!");
+        }
+
+        return ResponseDto.setSuccess("getLove 성공!", getLoveResponseDto);
     }
 }

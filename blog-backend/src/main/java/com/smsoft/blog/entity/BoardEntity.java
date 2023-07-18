@@ -52,4 +52,11 @@ public class BoardEntity {
     public void increaseViewCount() {
         this.boardClickCount++;
     }
+
+    public void increaseLoveCount() {
+        this.boardLoveCount++;
+    }
+    public void decreaseLoveCount() {
+        this.boardLoveCount--;
+    }
 }

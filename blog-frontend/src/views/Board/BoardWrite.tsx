@@ -6,6 +6,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import CreateIcon from '@mui/icons-material/Create';
 import { authorizationHeader, mutipartHeader } from '../../apis';
 import { useCookies } from 'react-cookie';
+import Navigation from '../Navigation';
 
 export default function BoardWrite() {
     const navigator = useNavigate();
@@ -76,6 +77,7 @@ export default function BoardWrite() {
 
     return (
         <>
+            <Navigation />
             <Box sx={{ minHeight: '100vh', p: '40px 600px', backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
                 <Box sx={{ p: '100px 50px', backgroundColor: '#ffffff' }}>
                     <Input fullWidth disableUnderline placeholder='제목을 입력하세요.' sx={{ fontSize: '32px', fontWeight: 500 }} onChange={(event) => setBoardTitle(event.target.value)} />

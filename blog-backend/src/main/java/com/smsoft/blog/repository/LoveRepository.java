@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LoveRepository extends JpaRepository<LoveEntity, Integer> {
     public List<LoveEntity> findByBoardNumber(int boardNumber);
+    public LoveEntity findByUserEmailAndBoardNumber(String userEmail, int boardNumber);
 }

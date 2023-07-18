@@ -21,4 +21,11 @@ public class LoveEntity {
     private String userEmail;
     private String loveUserProfile;
     private String loveUserNickname;
+
+    public LoveEntity(UserEntity userEntity, int boardNumber) {
+        this.userEmail = userEntity.getUserEmail();
+        this.boardNumber = boardNumber;
+        this.loveUserProfile = userEntity.getUserProfile();
+        this.loveUserNickname = userEntity.getUserNickname();
+    }
 }
