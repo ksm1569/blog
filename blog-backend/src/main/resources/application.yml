@@ -7,3 +7,7 @@ spring:
     url: jdbc:mysql://localhost:3306/smsoft?serverTimezone=Asia/Seoul
     username: sumin
     password: sumin1234
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true

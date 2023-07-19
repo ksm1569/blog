@@ -124,9 +124,12 @@ public class BoardService {
         try {
             BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
 
-            if (boardEntity == null){
+            if (boardEntity == null) {
                 return ResponseDto.setFailed("존재하지 않는 게시물입니다!");
             }
+
+            boardEntity.increaseViewCount();
+            boardRepository.save(boardEntity);
 
             List<CommentEntity> commentEntityList = commentRepository.findByBoardNumberOrderByCommentWriteDateDesc(boardNumber);
             List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
