@@ -1,10 +1,12 @@
 package com.smsoft.blog.service;
 
 import com.smsoft.blog.dto.request.board.PostBoardDto;
+import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
 import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
+import com.smsoft.blog.dto.respose.board.PostCommentResponseDto;
 import com.smsoft.blog.entity.*;
 import com.smsoft.blog.repository.*;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,34 @@ public class BoardService {
         }
 
         return ResponseDto.setSuccess("글 작성이 완료되었습니다", postBoardResponseDto);
+    }
+
+    //댓글작성
+    public ResponseDto<PostCommentResponseDto> postComment(String userEmail, PostCommentDto postCommentDto){
+        PostCommentResponseDto postCommentResponseDto = null;
+
+        try {
+            int boardNumber = postCommentDto.getBoardNumber();
+
+            UserEntity userEntity = userRepository.findByUserEmail(userEmail);
+            CommentEntity commentEntity = new CommentEntity(userEntity, postCommentDto);
+            commentRepository.save(commentEntity);
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            boardEntity.increaseCommentCount();
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumberOrderByCommentWriteDateDesc(boardNumber);
+            List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
+
+            postCommentResponseDto = new PostCommentResponseDto(boardEntity, commentEntityList, loveEntityList);
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("postComment 실패!");
+        }
+
+        return ResponseDto.setSuccess("postComment 성공!", postCommentResponseDto);
     }
 
     //주간 게시물 탑4

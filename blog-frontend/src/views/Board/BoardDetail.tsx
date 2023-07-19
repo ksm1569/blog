@@ -18,8 +18,9 @@ import boardEntity from '../../interfaces/boardentity.interface';
 import { useUserStore } from '../../stores';
 import commentEntityList from '../../interfaces/commentEntityList.interface';
 import loveEntityList from '../../interfaces/loveEntityList.interface';
-import BoardList from '../../components/BoardList';
 import Navigation from '../Navigation';
+import PostCommentRequestDto from '../../interfaces/request/PostCommentRequestDto';
+import { AnyTxtRecord } from 'dns';
 
 export default function BoardDetail() {
     const [cookies] = useCookies();
@@ -90,9 +91,7 @@ export default function BoardDetail() {
 
     const getBoard = () => {
         axios.get(`http://localhost:4000/api/board/detail/${boardNumber}`, authorizationHeader(token))
-            .then((response) => {
-                getBoardResponseHandler(response);
-            })
+            .then((response) => { getBoardResponseHandler(response) })
             .catch((error) => { console.log(error) })
 
     }
@@ -132,6 +131,29 @@ export default function BoardDetail() {
             alert('로그인이 필요합니다.');
             return;
         }
+        const data: PostCommentRequestDto = {
+            boardNumber: parseInt(boardNumber as string),
+            commentContent
+        }
+
+        axios.post('http://localhost:4000/api/board/comment', data, authorizationHeader(token))
+            .then((response) => { postCommentResponseHandler(response) })
+            .catch((error) => { postCommentErrorHandler(error) })
+
+    }
+
+    const postCommentResponseHandler = (response: AxiosResponse<any, any>) => {
+        const { result, message, data } = response.data as ResponseDto<GetBoardResponseDto>;
+        if (!result || !data) {
+            alert(message);
+            return;
+        }
+        setBoardResponse(data);
+        setCommnetContent('');
+    }
+
+    const postCommentErrorHandler = (error: any) => {
+
     }
 
     useEffect(() => {

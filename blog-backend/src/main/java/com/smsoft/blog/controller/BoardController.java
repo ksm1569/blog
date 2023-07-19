@@ -1,10 +1,12 @@
 package com.smsoft.blog.controller;
 
 import com.smsoft.blog.dto.request.board.PostBoardDto;
+import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
 import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
 import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
 import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
+import com.smsoft.blog.dto.respose.board.PostCommentResponseDto;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
 import com.smsoft.blog.service.BoardService;
@@ -26,6 +28,13 @@ public class BoardController {
     @PostMapping("")
     public ResponseDto<PostBoardResponseDto> postBoard(@AuthenticationPrincipal String email, @RequestBody PostBoardDto postBoardDto){
         ResponseDto<PostBoardResponseDto> response = boardService.postBoard(email, postBoardDto);
+
+        return response;
+    }
+
+    @PostMapping("/comment")
+    public ResponseDto<PostCommentResponseDto> postComment(@AuthenticationPrincipal String userEmail, @RequestBody PostCommentDto postCommentDto){
+        ResponseDto<PostCommentResponseDto> response = boardService.postComment(userEmail, postCommentDto);
 
         return response;
     }

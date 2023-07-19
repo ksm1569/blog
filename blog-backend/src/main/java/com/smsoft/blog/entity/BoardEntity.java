@@ -59,4 +59,7 @@ public class BoardEntity {
     public void decreaseLoveCount() {
         this.boardLoveCount--;
     }
+    public void increaseCommentCount() {
+        this.boardCommentCount++;
+    }
 }
