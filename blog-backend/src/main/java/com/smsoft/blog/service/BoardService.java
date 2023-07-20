@@ -3,10 +3,7 @@ package com.smsoft.blog.service;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
-import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
-import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
-import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
-import com.smsoft.blog.dto.respose.board.PostCommentResponseDto;
+import com.smsoft.blog.dto.respose.board.*;
 import com.smsoft.blog.entity.*;
 import com.smsoft.blog.repository.*;
 import org.springframework.stereotype.Service;
@@ -58,6 +55,25 @@ public class BoardService {
         }
 
         return ResponseDto.setSuccess("글 작성이 완료되었습니다", postBoardResponseDto);
+    }
+
+    public ResponseDto<DeleteBoardResponseDto> deleteBoard(int boardNumber){
+        DeleteBoardResponseDto deleteBoardResponseDto = null;
+
+        try {
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            commentRepository.deleteByBoardNumber(boardNumber);
+            loveRepository.deleteByBoardNumber(boardNumber);
+
+            boardRepository.delete(boardEntity);
+
+            deleteBoardResponseDto = new DeleteBoardResponseDto(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("deleteBoard 실패!");
+        }
+
+        return ResponseDto.setSuccess("deleteBoard 성공!", deleteBoardResponseDto);
     }
 
     //댓글작성

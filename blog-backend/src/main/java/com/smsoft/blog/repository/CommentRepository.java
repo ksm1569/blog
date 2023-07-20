@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
     public List<CommentEntity> findByBoardNumberOrderByCommentWriteDateDesc(int boardNumber);
+
+    public void deleteByBoardNumber(int boardNumber);
 }

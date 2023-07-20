@@ -3,13 +3,11 @@ package com.smsoft.blog.controller;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
-import com.smsoft.blog.dto.respose.board.GetBoardResponseDto;
-import com.smsoft.blog.dto.respose.board.GetLoveResponseDto;
-import com.smsoft.blog.dto.respose.board.PostBoardResponseDto;
-import com.smsoft.blog.dto.respose.board.PostCommentResponseDto;
+import com.smsoft.blog.dto.respose.board.*;
 import com.smsoft.blog.entity.BoardEntity;
 import com.smsoft.blog.entity.PopularSearchEntity;
 import com.smsoft.blog.service.BoardService;
+import org.hibernate.sql.Delete;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +28,14 @@ public class BoardController {
         ResponseDto<PostBoardResponseDto> response = boardService.postBoard(email, postBoardDto);
 
         return response;
+    }
+    
+    @DeleteMapping("{boardNumber}")
+    public ResponseDto<DeleteBoardResponseDto> deleteBoard(@PathVariable("boardNumber") int boardNumber){
+        System.out.println(boardNumber);
+        ResponseDto<DeleteBoardResponseDto> deleteBoardResponseDto = boardService.deleteBoard(boardNumber);
+
+        return deleteBoardResponseDto;
     }
 
     @PostMapping("/comment")

@@ -10,4 +10,6 @@ import java.util.List;
 public interface LoveRepository extends JpaRepository<LoveEntity, Integer> {
     public List<LoveEntity> findByBoardNumber(int boardNumber);
     public LoveEntity findByUserEmailAndBoardNumber(String userEmail, int boardNumber);
+
+    public void deleteByBoardNumber(int boardNumber);
 }

@@ -20,7 +20,7 @@ import commentEntityList from '../../interfaces/commentEntityList.interface';
 import loveEntityList from '../../interfaces/loveEntityList.interface';
 import Navigation from '../Navigation';
 import PostCommentRequestDto from '../../interfaces/request/PostCommentRequestDto';
-import { AnyTxtRecord } from 'dns';
+import DeleteBoardResponseDto from '../../interfaces/response/DeleteBoardResponseDto';
 
 export default function BoardDetail() {
     const [cookies] = useCookies();
@@ -67,7 +67,7 @@ export default function BoardDetail() {
 
         axios.get(`http://localhost:4000/api/board/love/${boardNumber}`, authorizationHeader(token))
             .then((response) => {
-                getLikeResponseHandler(response);
+                getLoveResponseHandler(response);
             })
             .catch((error) => { console.log(error) })
     }
@@ -87,6 +87,29 @@ export default function BoardDetail() {
             alert('로그인이 필요합니다.');
             return;
         }
+
+        if (board?.boardWriterEmail !== user?.userEmail) {
+            alert("본인이 쓴 글만 삭제 가능합니다.");
+            return;
+        }
+
+        axios.delete(`http://localhost:4000/api/board/${boardNumber}`, authorizationHeader(token))
+            .then((response) => { deleteBoardResposeHandler(response) })
+            .catch((error) => { deleteBoardErrorHandler(error) })
+
+    }
+
+    const deleteBoardResposeHandler = (response: AxiosResponse<any, any>) => {
+        const { result, message, data } = response.data as ResponseDto<DeleteBoardResponseDto>
+        if (!result || !data || !data.result) {
+            alert(message);
+            return;
+        }
+        navigator('/');
+    }
+
+    const deleteBoardErrorHandler = (error: any) => {
+        console.log(error.message());
     }
 
     const getBoard = () => {
@@ -106,7 +129,7 @@ export default function BoardDetail() {
         setBoardResponse(data);
     }
 
-    const getLikeResponseHandler = (response: AxiosResponse<any, any>) => {
+    const getLoveResponseHandler = (response: AxiosResponse<any, any>) => {
         const { result, message, data } = response.data as ResponseDto<GetBoardResponseDto>
         if (!result || !data) {
             alert(message);
