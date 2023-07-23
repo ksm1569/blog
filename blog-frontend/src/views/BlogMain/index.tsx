@@ -31,6 +31,7 @@ export default function BlogMain() {
     const getTop4ResponseHandler = (response: AxiosResponse<any, any>) => {
         const { result, message, data } = response.data as ResponseDto<GetTop4ResponseDto[]>;
         if (!result || data === null) return;
+
         setTop4List(data);
     }
 
