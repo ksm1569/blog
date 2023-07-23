@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Authentication from './views/Authentication';
 import BoardWrite from './views/Board/BoardWrite';
 import BoardDetail from './views/Board/BoardDetail';
+import BoardUpdate from './views/Board/BoardUpdate';
 
 export default function App() {
 
@@ -14,7 +15,7 @@ export default function App() {
         <Route path='/' element={(<MainLayout />)} />
         <Route path='/board/write' element={(<BoardWrite />)} />
         <Route path='/board/detail/:boardNumber' element={(<BoardDetail />)} />
-        <Route path='/board/update/:boardNumber' element={''} />
+        <Route path='/board/update/:boardNumber' element={(<BoardUpdate />)} />
         {/* <Route path='/myPage' element={(<MyPageView />)} /> */}
       </Routes>
     </>

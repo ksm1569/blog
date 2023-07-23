@@ -1,5 +1,6 @@
 package com.smsoft.blog.service;
 
+import com.smsoft.blog.dto.request.board.PatchBoardDto;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
@@ -57,6 +58,30 @@ public class BoardService {
         return ResponseDto.setSuccess("글 작성이 완료되었습니다", postBoardResponseDto);
     }
 
+    public ResponseDto<PatchBoardResponseDto> patchBoard(String email, PatchBoardDto patchBoardDto){
+        PatchBoardResponseDto patchBoardResponseDto = null;
+
+        try {
+            int boardNumber = patchBoardDto.getBoardNumber();
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            boardEntity.patch(patchBoardDto);
+            boardRepository.save(boardEntity);
+
+            List<CommentEntity> commentEntityList = commentRepository.findByBoardNumberOrderByCommentWriteDateDesc(boardNumber);
+            List<LoveEntity> loveEntityList = loveRepository.findByBoardNumber(boardNumber);
+
+            patchBoardResponseDto = new PatchBoardResponseDto(boardEntity, commentEntityList, loveEntityList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("patchBoard 실패!");
+        }
+
+
+        return ResponseDto.setSuccess("patchBoard 성공!", patchBoardResponseDto);
+    }
+
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(int boardNumber){
         DeleteBoardResponseDto deleteBoardResponseDto = null;
 
@@ -107,10 +132,9 @@ public class BoardService {
     //주간 게시물 탑4
     public ResponseDto<List<BoardEntity>> getTop4(){
         List<BoardEntity> boardEntityList = new ArrayList<BoardEntity>();
-        Date date = Date.from(Instant.now().minus(7, ChronoUnit.DAYS));
+        Date date = Date.from(Instant.now().minus(90, ChronoUnit.DAYS));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String WeekAgo = simpleDateFormat.format(date);
-
         try {
             boardEntityList = boardRepository.findTop4ByBoardWriteDateGreaterThanOrderByBoardLoveCountDesc(WeekAgo);
         } catch (Exception e){

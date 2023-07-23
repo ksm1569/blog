@@ -1,5 +1,6 @@
 package com.smsoft.blog.entity;
 
+import com.smsoft.blog.dto.request.board.PatchBoardDto;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,6 +48,12 @@ public class BoardEntity {
         this.boardWriterProfile = userEntity.getUserProfile();
         this.boardCommentCount = 0;
         this.boardLoveCount = 0;
+    }
+
+    public void patch(PatchBoardDto patchBoardDto){
+        this.boardTitle = patchBoardDto.getBoardTitle();
+        this.boardContent = patchBoardDto.getBoardContent();
+        this.boardImage = patchBoardDto.getBoardImage();
     }
 
     public void increaseViewCount() {

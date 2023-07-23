@@ -1,5 +1,6 @@
 package com.smsoft.blog.controller;
 
+import com.smsoft.blog.dto.request.board.PatchBoardDto;
 import com.smsoft.blog.dto.request.board.PostBoardDto;
 import com.smsoft.blog.dto.request.board.PostCommentDto;
 import com.smsoft.blog.dto.respose.ResponseDto;
@@ -29,10 +30,16 @@ public class BoardController {
 
         return response;
     }
+
+    @PatchMapping
+    public ResponseDto<PatchBoardResponseDto> patchBoard(@AuthenticationPrincipal String email, @RequestBody PatchBoardDto patchBoardDto){
+        ResponseDto<PatchBoardResponseDto> patchBoardResponseDto = boardService.patchBoard(email, patchBoardDto);
+
+        return patchBoardResponseDto;
+    }
     
     @DeleteMapping("{boardNumber}")
     public ResponseDto<DeleteBoardResponseDto> deleteBoard(@PathVariable("boardNumber") int boardNumber){
-        System.out.println(boardNumber);
         ResponseDto<DeleteBoardResponseDto> deleteBoardResponseDto = boardService.deleteBoard(boardNumber);
 
         return deleteBoardResponseDto;
