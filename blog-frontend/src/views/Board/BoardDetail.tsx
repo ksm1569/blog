@@ -229,7 +229,7 @@ export default function BoardDetail() {
 
                     <Box>
                         <Typography sx={{ fontSize: '18px', fontWeight: 500, opacity: 0.7 }}>{board?.boardContent}</Typography>
-                        {board?.boardImage && (<Box sx={{ width: '100%', mt: '20px' }} component='img' src={board?.boardImage} />)}
+                        {board?.boardImage && (<Box sx={{ width: '100%', mt: '20px', maxWidth: '1000px' }} component='img' src={board?.boardImage} />)}
                     </Box>
 
 

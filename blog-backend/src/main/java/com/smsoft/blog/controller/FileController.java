@@ -22,7 +22,7 @@ public class FileController {
         return response;
     }
 
-    @GetMapping(value="/file/download/{fileName}", produces={MediaType.ALL_VALUE})
+    @GetMapping(value="/files/download/{fileName}", produces={MediaType.ALL_VALUE})
     public Resource getFile(@PathVariable("fileName") String fileName){
         Resource response = fileService.download(fileName);
 

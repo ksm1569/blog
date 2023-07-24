@@ -11,5 +11,5 @@ public class PostBoardDto {
     @NotBlank
     private String boardContent;
 
-    private String boardImgUrl;
+    private String boardImage;
 }

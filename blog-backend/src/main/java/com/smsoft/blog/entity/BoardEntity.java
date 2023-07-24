@@ -40,7 +40,7 @@ public class BoardEntity {
 
         this.boardTitle = postBoardDto.getBoardTitle();
         this.boardContent = postBoardDto.getBoardContent();
-        this.boardImage = postBoardDto.getBoardImgUrl();
+        this.boardImage = postBoardDto.getBoardImage();
         this.boardWriteDate = simpleDateFormat.format(now);
         this.boardClickCount = 0;
         this.boardWriterEmail = userEntity.getUserEmail();

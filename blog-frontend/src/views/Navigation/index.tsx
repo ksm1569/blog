@@ -14,7 +14,6 @@ import './style.css';
 import AvatarList from '../../components/AvatarList';
 
 export default function Navigation() {
-
     const navigator = useNavigate();
     const [cookies, setCookies] = useCookies();
     const { user, removeUser } = useUserStore();
@@ -26,6 +25,7 @@ export default function Navigation() {
         removeUser();
         setAnchorElement(null);
         setMenuOpen(false);
+        navigator('/')
     }
 
     const onMenuCloseHandler = () => {

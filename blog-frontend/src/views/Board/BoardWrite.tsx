@@ -15,7 +15,7 @@ export default function BoardWrite() {
 
     const [boardTitle, setBoardTitle] = useState<string>('');
     const [boardContent, setBoardContent] = useState<string>('');
-    const [boardImgUrl, setBoardImgUrl] = useState<string>('');
+    const [boardImage, setBoardImage] = useState<string>('');
     const imageRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function BoardWrite() {
     const imageUploadResponseHandler = (response: AxiosResponse<any, any>) => {
         const imageUrl = response.data as string;
         if (!imageUrl) return;
-        setBoardImgUrl(imageUrl);
+        setBoardImage(imageUrl);
     }
 
     const onImageUploadChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ export default function BoardWrite() {
     }
 
     const postBoard = () => {
-        const data = { boardTitle, boardContent, boardImgUrl };
+        const data = { boardTitle, boardContent, boardImage };
         axios.post('http://localhost:4000/api/board', data, authorizationHeader(accessToken))
             .then((response) => {
                 alert(response.data.message);
@@ -86,7 +86,7 @@ export default function BoardWrite() {
 
                         <Box sx={{ width: '100%' }}>
                             <Input fullWidth disableUnderline multiline minRows={5} placeholder='본문을 작성해주세요.' sx={{ fontSize: '18px', fontWeight: 500, lineHeight: '150%' }} onChange={(event) => onBoardContentChangeHandler(event)} onKeyDown={(event) => onBoardContentKeyPressHandler(event)} />
-                            <Box sx={{ width: '100%' }} component='img' src={boardImgUrl} />
+                            <Box sx={{ width: '100%' }} component='img' src={boardImage} />
                         </Box>
 
                         <IconButton onClick={() => onImageUploadButtonHandler()} >

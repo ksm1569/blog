@@ -29,6 +29,8 @@ public class WebSecurityConfig {
                 //스프링 시큐리티 허용
                 .authorizeRequests().antMatchers("/", "/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/board/**").permitAll()
+                .antMatchers("/file/**", "/files/**")
+                .permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(jwtAuthencationFilter, UsernamePasswordAuthenticationFilter.class);

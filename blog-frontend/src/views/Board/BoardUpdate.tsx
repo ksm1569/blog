@@ -50,6 +50,7 @@ export default function BoardUpdate() {
     const imageUploadResponseHandler = (response: AxiosResponse<any, any>) => {
         const imageUrl = response.data as string;
         if (!imageUrl) return;
+        console.log(imageUrl);
         setBoardImage(imageUrl);
     }
 

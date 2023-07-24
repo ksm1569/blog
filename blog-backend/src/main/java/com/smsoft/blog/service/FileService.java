@@ -12,10 +12,10 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    @Value("C:/uploadfiles")
+    @Value("/Users/sumin/uploadfiles/")
     private String FILE_PATH;
 
-    @Value("http://localhost:4000/files/")
+    @Value("http://localhost:4000/files/download/")
     private String FILE_URL;
 
     public String upload(MultipartFile file){
